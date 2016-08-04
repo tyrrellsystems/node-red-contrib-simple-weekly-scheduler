@@ -1,0 +1,22 @@
+{
+  "name": "node-red-contrib-simple-weekly-scheduler",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "time-planner": "time-planner.js"
+    }
+  },
+  "keywords": [
+    "node-red"
+  ],
+  "author": {
+    "name": "Benjamin Hardill",
+    "email": "hardillb@gmail.com",
+    "url": "http://www.hardill.me.uk/wordpress/"
+  },
+  "license": "Apache-2.0"
+}

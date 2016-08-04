@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="jquery.weekcalendar.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<title>Calendar Test</title>
+	<style type="text/css">
+	.wc-business-hours {
+		font-size: 1.0em;
+	}
+	</style>
+</head>
+<body>
+	<div style="width: 800px; height:550px">
+		<div id="calendar"></div>
+	</div>
+	<script type="text/javascript">
+	var setup = function(){
+		$('#calendar').weekCalendar({
+			date: new Date('2000-01-01T12:00:00.000+00:00'),
+    		minDate: new Date('2009-05-01T13:15:00.000+00:00'),
+    		maxDate: new Date('2009-05-20T13:15:00.000+00:00'),
+    		timeslotHeight: 20,
+    		timeslotsPerHour: 4,
+    		use24Hour: true,
+    		showHeader: false,
+    		getHeaderDate: function(date, element){
+    			var d=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    			return d[date.getDay()];
+    		},
+    		height: function($calendar) {
+        		return $('#calendar').parent().height();
+    		},
+		});
+	}
+
+		$.getScript('date.js')
+		.done(function(data, textStatus, jqxhr){
+			$.getScript('jquery.weekcalendar.js')
+	        .done(function(data, textStatus, jqxhr){ 
+	            setup(); 
+	        }) 
+	        .fail(function(jqxhr, settings, exception ){ 
+	            console.log("failed to load fullcalendar.js"); 
+	        });
+		})
+		.fail(function(jqxhr, settings, exception){
+			console.log("failed to load date.js");
+		})
+	</script>
+</body>
+</html>
