@@ -31,7 +31,10 @@ module.exports = function(RED) {
 						console.log("start");
 						var msg = {
 							topic: node.topic,
-							event: node.events[i],
+							event: {
+								start:evtStart.toTimeString()
+								end: evtEnd.toTimeString()
+							},
 							payload: RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg)
 						};
 						node.send(msg);
@@ -40,7 +43,10 @@ module.exports = function(RED) {
 						console.log("end");
 						var msg = {
 							topic: node.topic,
-							event: node.events[i],
+							event: {
+								start:evtStart.toTimeString()
+								end: evtEnd.toTimeString()
+							},
 							payload: RED.util.evaluateNodeProperty(node.endPayload, node.endPayloadType, node,msg)
 						};
 						node.send(msg);
