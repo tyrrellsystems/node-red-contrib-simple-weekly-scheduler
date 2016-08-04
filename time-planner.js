@@ -6,13 +6,17 @@ module.exports = function(RED) {
 		RED.nodes.createNode(this,n);
 		this.events = JSON.parse(n.events);
 		this.topic = n.topic;
+		this.startPayload = n.startPayload;
+		this.startPayloadType = n.startPayloadType;
+		this.endPayload = n.endPayload;
+		this.endPayloadType = n.endPayloadType;
 		var node = this;
 
 		function checkTime(){
 			var now = new Date();
-			var day = now.getDay();
-			var hour = now.getHours();
-			var mins = now.getMinutes()
+			var day = now.getUTCDay();
+			var hour = now.getUTCHours();
+			var mins = now.getUTCMinutes()
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
@@ -22,22 +26,22 @@ module.exports = function(RED) {
 				// console.log("Start: ",evtStart);
 				// console.log("End: ",evtEnd);
 
-				if (evtStart.getDay() === day) { //same day of week
-					if (hour === evtStart.getHours() && mins === evtStart.getMinutes()) {
+				if (evtStart.getUTCDay() === day) { //same day of week
+					if (hour === evtStart.getUTCHours() && mins === evtStart.getUTCMinutes()) {
 						console.log("start");
 						var msg = {
 							topic: node.topic,
 							event: node.events[i],
-							payload: "start"
+							payload: RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg)
 						};
 						node.send(msg);
 					}
-					if (hour === evtEnd.getHours() && mins === evtEnd.getMinutes()) {
+					if (hour === evtEnd.getUTCHours() && mins === evtEnd.getUTCMinutes()) {
 						console.log("end");
 						var msg = {
 							topic: node.topic,
 							event: node.events[i],
-							payload: "end"
+							payload: RED.util.evaluateNodeProperty(node.endPayload, node.endPayloadType, node,msg)
 						};
 						node.send(msg);
 					}

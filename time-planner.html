@@ -6,7 +6,7 @@
 			font-size: 1.0em;
 		}
 		</style>
-		<div id="calendar" style="width: 100%; height: 400px"></div>
+		<div id="calendar" style="width: 100%; height: 500px"></div>
 	</div>
 	<div class="form-row">
 		<label for="node-input-startPayload"> Start Payload</label>
@@ -35,8 +35,8 @@
 {
   topic: "some/topic",
   event: {
-    start: "",
-    end: "",
+    start: "2009-04-28T07:00:00.000Z",
+    end: "2009-04-28T17:00:00.000Z",
     id: "1"},
   payload: "start"
 }
@@ -73,7 +73,7 @@
 					minDate: new Date('2009-05-01T13:15:00.000+00:00'),
 					maxDate: new Date('2009-05-20T13:15:00.000+00:00'),
 					data: events,
-					timeslotHeight: 20,
+					timeslotHeight: 15,
 					timeslotsPerHour: 4,
 					defaultEventLength: 1,
 					use24Hour: true,
@@ -107,7 +107,6 @@
 						calEvent.title = "";
 					},
 					eventClick: function(calEvent, $event) {
-						console.log(calEvent);
 						$('#calendar').weekCalendar('removeEvent', calEvent.id);
 					}
 				});
