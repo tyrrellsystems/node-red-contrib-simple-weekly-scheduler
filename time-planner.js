@@ -23,7 +23,11 @@ module.exports = function(RED) {
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
 				// console.log("Now: ", now);
+				// console.log("Now hour: ", hour);
+				// console.log("Now mins: ", mins);
 				// console.log("Start: ",evtStart);
+				// console.log("Start hour: ",evtStart.getUTCHours());
+				// console.log("Start mins: ",evtStart.getUTCMinutes());
 				// console.log("End: ",evtEnd);
 
 				if (evtStart.getUTCDay() === day) { //same day of week
@@ -32,7 +36,7 @@ module.exports = function(RED) {
 						var msg = {
 							topic: node.topic,
 							event: {
-								start:evtStart.toTimeString()
+								start:evtStart.toTimeString(),
 								end: evtEnd.toTimeString()
 							},
 							payload: RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg)
@@ -44,7 +48,7 @@ module.exports = function(RED) {
 						var msg = {
 							topic: node.topic,
 							event: {
-								start:evtStart.toTimeString()
+								start:evtStart.toTimeString(),
 								end: evtEnd.toTimeString()
 							},
 							payload: RED.util.evaluateNodeProperty(node.endPayload, node.endPayloadType, node,msg)

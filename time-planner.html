@@ -9,12 +9,12 @@
 		<div id="calendar" style="width: 100%; height: 500px"></div>
 	</div>
 	<div class="form-row">
-		<label for="node-input-startPayload"> Start Payload</label>
+		<label for="node-input-startPayload"><i class="fa fa-envelope"></i> Start Payload</label>
 		<input type="text" id="node-input-startPayload" placeholder="start"></input>
 		<input type="hidden" id="node-input-startPayloadType">
 	</div>
 	<div class="form-row">
-		<label for="node-input-endPayload"> End Payload</label>
+		<label for="node-input-endPayload"><i class="fa fa-envelope"></i> End Payload</label>
 		<input type="text" id="node-input-endPayload" placeholder="end"></input>
 		<input type="hidden" id="node-input-endPayloadType">
 	</div>
@@ -33,12 +33,12 @@
 	<p>The node will emit a message at the start and end of the event of the form</p>
 	<pre>
 {
-  topic: "some/topic",
-  event: {
-    start: "2009-04-28T07:00:00.000Z",
-    end: "2009-04-28T17:00:00.000Z",
+  "topic": "some/topic",
+  "event": {
+    "start": "09:00:00 GMT+0100 (BST)",
+    "end": "09:15:00 GMT+0100 (BST)"
   },
-  payload: "start"
+  "payload": "end",
 }
 	</pre>
 </script>
@@ -59,6 +59,7 @@
 		inputs: 0,
 		outputs: 1,
 		icon: 'hash.png',
+		paletteLabel: 'Simple Scheduler',
 		label: function(){
 			return this.name? this.name: 'Simple Scheduler'
 		},
