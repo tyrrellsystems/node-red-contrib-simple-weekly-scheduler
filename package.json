@@ -10,6 +10,10 @@
       "time-planner": "time-planner.js"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tyrrellsytems/node-red-contrib-simple-weekly-scheduler"
+  },
   "keywords": [
     "node-red"
   ],
