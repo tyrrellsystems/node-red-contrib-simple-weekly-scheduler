@@ -1,4 +1,4 @@
-<script type="text/x-red" data-template-name="time-planner">
+<script type="text/x-red" data-template-name="time-filter">
 	<div class="form-row">
 		<link rel='stylesheet' href='time-planner/js/jquery.weekcalendar.css' />
 		<style type="text/css">
@@ -32,24 +32,15 @@
 	</div>
 </script>
 
-<script type="text/x-red" data-help-name="time-planner">
-	<p>A node to schedule events over a given week</p>
-	<p>The node will emit a message at the start and end of the event of the form</p>
-	<pre>
-{
-  "topic": "some/topic",
-  "event": {
-    "start": "09:00:00 GMT+0100 (BST)",
-    "end": "09:15:00 GMT+0100 (BST)"
-  },
-  "payload": "end",
-}
-	</pre>
-	<p>It can also take a url to download a updated schedule from a central server.</p>
+<script type="text/x-red" data-help-name="time-filter">
+	<p>A node to filter mesages over a given week</p>
+	<p>The node will pass messages only when current time is marked in the calendar</p>
+
+	<p>It can also take a url to pull a schedule from</p>
 </script>
 
 <script type="text/javascript">
-	RED.nodes.registerType('time-planner',{
+	RED.nodes.registerType('time-filter',{
 		category: 'input',
 		color:"#DEBD5C",
 		defaults: {
@@ -62,7 +53,7 @@
 			endPayloadType: {value:"str"},
 			name: {value:""}
 		},
-		inputs: 0,
+		inputs: 1,
 		outputs: 1,
 		icon: 'hash.png',
 		paletteLabel: 'Simple Scheduler',
