@@ -1,7 +1,7 @@
 module.exports = function(RED) {
 	"use strict";
 	var path = require('path');
-	var request = require('request')''
+	var req = require('request');
 
 	var timePlanner = function(n) {
 		RED.nodes.createNode(this,n);
@@ -15,9 +15,9 @@ module.exports = function(RED) {
 		var node = this;
 
 		function checkCentral() {
-			if (central) {
-				request(control, function(err, respose, body){
-					if (!err && response.statusCode = 200) {
+			if (node.central) {
+				req(node.central, function(err, respose, body){
+					if (!err && response.statusCode == 200) {
 						try{
 							node.events = JSON.parse(body);
 						} catch (error) {
@@ -35,7 +35,7 @@ module.exports = function(RED) {
 			var now = new Date();
 			var day = now.getUTCDay();
 			var hour = now.getUTCHours();
-			var mins = now.getUTCMinutes()
+			var mins = now.getUTCMinutes();
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
@@ -50,28 +50,21 @@ module.exports = function(RED) {
 				// console.log("End: ",evtEnd);
 
 				if (evtStart.getUTCDay() === day) { //same day of week
+					var msg = {
+						topic: node.topic,
+						event: {
+							start:evtStart.toTimeString(),
+							end: evtEnd.toTimeString()
+						}
+					};
 					if (hour === evtStart.getUTCHours() && mins === evtStart.getUTCMinutes()) {
 						console.log("start");
-						var msg = {
-							topic: node.topic,
-							event: {
-								start:evtStart.toTimeString(),
-								end: evtEnd.toTimeString()
-							},
-							payload: RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg)
-						};
+						msg.payload = RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg);
 						node.send(msg);
 					}
 					if (hour === evtEnd.getUTCHours() && mins === evtEnd.getUTCMinutes()) {
 						console.log("end");
-						var msg = {
-							topic: node.topic,
-							event: {
-								start:evtStart.toTimeString(),
-								end: evtEnd.toTimeString()
-							},
-							payload: RED.util.evaluateNodeProperty(node.endPayload, node.endPayloadType, node,msg)
-						};
+						msg.payload = RED.util.evaluateNodeProperty(node.endPayload, node.emdPayloadType, node,msg);
 						node.send(msg);
 					}
 				}
@@ -100,4 +93,4 @@ module.exports = function(RED) {
 		};
  		res.sendFile(req.params[0], options);
 	});
-}
+};

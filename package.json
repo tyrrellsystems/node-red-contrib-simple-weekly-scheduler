@@ -7,7 +7,8 @@
   },
   "node-red": {
     "nodes": {
-      "time-planner": "time-planner.js"
+      "time-planner": "time-planner.js",
+      "time-filter": "time-filter.js"
     }
   },
   "repository": {
