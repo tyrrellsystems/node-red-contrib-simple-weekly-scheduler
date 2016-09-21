@@ -7,7 +7,8 @@
   },
   "node-red": {
     "nodes": {
-      "time-planner": "time-planner.js"
+      "time-planner": "time-planner.js",
+      "time-filter": "time-filter.js"
     }
   },
   "repository": {
@@ -22,5 +23,8 @@
     "email": "hardillb@gmail.com",
     "url": "http://www.hardill.me.uk/wordpress/"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "request": "^2.75.0"
+  }
 }

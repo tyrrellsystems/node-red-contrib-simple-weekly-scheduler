@@ -19,7 +19,7 @@ module.exports = function(RED) {
 	var path = require('path');
 	var req = require('request');
 
-	var timePlanner = function(n) {
+	var timeFilter = function(n) {
 		RED.nodes.createNode(this,n);
 		this.events = JSON.parse(n.events);
 		this.central = n.central;
@@ -47,7 +47,7 @@ module.exports = function(RED) {
 			}
 		}
 
-		function checkTime(){
+		node.on('input', function(msg){
 			var now = new Date();
 			var day = now.getUTCDay();
 			var hour = now.getUTCHours();
@@ -66,47 +66,27 @@ module.exports = function(RED) {
 				// console.log("End: ",evtEnd);
 
 				if (evtStart.getUTCDay() === day) { //same day of week
-					var msg = {
-						topic: node.topic,
-						event: {
-							start:evtStart.toTimeString(),
-							end: evtEnd.toTimeString()
-						}
-					};
-					if (hour === evtStart.getUTCHours() && mins === evtStart.getUTCMinutes()) {
-						console.log("start");
-						msg.payload = RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg);
-						node.send(msg);
-					}
-					if (hour === evtEnd.getUTCHours() && mins === evtEnd.getUTCMinutes()) {
-						console.log("end");
-						msg.payload = RED.util.evaluateNodeProperty(node.endPayload, node.emdPayloadType, node,msg);
+
+					var start = ((evtStart.getUTCHours() * 60) + evtStart.getUTCMinutes());
+					var end = ((evtEnd.getUTCHours() * 60) + evtEnd.getUTCMinutes());
+					var test = ((hour * 60) + mins);
+
+					if (test >= start &&  test <= end) {
 						node.send(msg);
 					}
 				}
 			}
-		}
+
+		});
 
 		node.centralInterval = setInterval(checkCentral,600000); //once every 10mins
 
-		node.interval = setInterval(checkTime,60000); //once a min
-		checkTime();
 
 		node.on('close', function(){
 			clearInterval(node.centralInterval);
-			clearInterval(node.interval);
 		});
 
 	};
-	RED.nodes.registerType("time-planner",timePlanner);
+	RED.nodes.registerType("time-filter",timeFilter);
 
-	RED.httpAdmin.get('/time-planner/js/*', function(req,res){
-		// var filename = path.join(__dirname , 'static', req.params[0]);
-		// res.sendfile(filename);
-		var options = {
-			root: __dirname + '/static/',
-			dotfiles: 'deny'
-		};
- 		res.sendFile(req.params[0], options);
-	});
 };
