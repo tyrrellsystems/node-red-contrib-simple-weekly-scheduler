@@ -19,7 +19,7 @@
 			font-size: 1.0em;
 		}
 		</style>
-		<div id="calendar" style="width: 100%; height: 500px"></div>
+		<div id="calendar" style="width: 100%; height: 500px; border-left: 1px solid grey; border-right: 1px solid grey"></div>
 	</div>
 	<div class="form-row">
 		<label for="node-input-central"><i class="fa fa-link"></i> Central List</label>
@@ -37,7 +37,9 @@
 
 <script type="text/x-red" data-help-name="time-filter">
 	<p>A node to filter mesages over a given week</p>
-	<p>The node will pass messages only when current time is marked in the calendar</p>
+	<p>The node will pass messages to the first output 
+	only when current time is marked in the calendar, 
+	else the message will be output on the second output</p>
 
 	<p>It can also take a URL to pull a schedule from. The URL should return a JSON object that looks like:</p>
 <pre>
@@ -54,7 +56,7 @@
 
 <script type="text/javascript">
 	RED.nodes.registerType('time-filter',{
-		category: 'input',
+		category: 'function',
 		color:"#DEBD5C",
 		defaults: {
 			events: {value:"[]"},
@@ -63,11 +65,11 @@
 			name: {value:""}
 		},
 		inputs: 1,
-		outputs: 1,
+		outputs: 2,
 		icon: 'hash.png',
-		paletteLabel: 'Simple Schedule Filter',
+		paletteLabel: 'Schedule Filter',
 		label: function(){
-			return this.name? this.name: 'Simple Schedule Filter'
+			return this.name? this.name: 'Schedule Filter'
 		},
 		oneditprepare: function() {
 			var node = this;

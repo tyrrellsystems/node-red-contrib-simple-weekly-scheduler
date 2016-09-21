@@ -19,7 +19,7 @@
 			font-size: 1.0em;
 		}
 		</style>
-		<div id="calendar" style="width: 100%; height: 500px"></div>
+		<div id="calendar" style="width: 100%; height: 500px; border-left: 1px solid grey; border-right: 1px solid grey"></div>
 	</div>
 	<div class="form-row">
 		<label for="node-input-startPayload"><i class="fa fa-envelope"></i> Start Payload</label>
@@ -78,9 +78,9 @@
 		inputs: 0,
 		outputs: 1,
 		icon: 'hash.png',
-		paletteLabel: 'Simple Scheduler',
+		paletteLabel: 'Scheduler',
 		label: function(){
-			return this.name? this.name: 'Simple Scheduler'
+			return this.name? this.name: 'Scheduler'
 		},
 		oneditprepare: function() {
 			var node = this;

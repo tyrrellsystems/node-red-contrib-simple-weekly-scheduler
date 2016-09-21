@@ -72,8 +72,12 @@ module.exports = function(RED) {
 					var test = ((hour * 60) + mins);
 
 					if (test >= start &&  test <= end) {
-						node.send(msg);
+						node.send([[msg],[]]);
+					} else {
+						node.send([[],msg]);
 					}
+				} else {
+					node.send([[],msg]);
 				}
 			}
 
