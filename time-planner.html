@@ -19,7 +19,7 @@
 			font-size: 1.0em;
 		}
 		</style>
-		<div id="calendar" style="width: 100%; height: 500px"></div>
+		<div id="calendar" style="width: 100%; height: 500px; border: 1px solid grey"></div>
 	</div>
 	<div class="form-row">
 		<label for="node-input-startPayload"><i class="fa fa-envelope"></i> Start Payload</label>
@@ -77,10 +77,10 @@
 		},
 		inputs: 0,
 		outputs: 1,
-		icon: 'hash.png',
-		paletteLabel: 'Simple Scheduler',
+		icon: 'cal.png',
+		paletteLabel: 'Scheduler',
 		label: function(){
-			return this.name? this.name: 'Simple Scheduler'
+			return this.name? this.name: 'Scheduler'
 		},
 		oneditprepare: function() {
 			var node = this;
@@ -93,7 +93,7 @@
 					minDate: new Date('2009-05-01T13:15:00.000+00:00'),
 					maxDate: new Date('2009-05-20T13:15:00.000+00:00'),
 					data: events,
-					timeslotHeight: 15,
+					timeslotHeight: 12,
 					timeslotsPerHour: 4,
 					defaultEventLength: 1,
 					use24Hour: true,
