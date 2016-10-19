@@ -74,12 +74,12 @@ module.exports = function(RED) {
 						}
 					};
 					if (hour === evtStart.getUTCHours() && mins === evtStart.getUTCMinutes()) {
-						console.log("start");
+						// console.log("start");
 						msg.payload = RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg);
 						node.send(msg);
 					}
 					if (hour === evtEnd.getUTCHours() && mins === evtEnd.getUTCMinutes()) {
-						console.log("end");
+						// console.log("end");
 						msg.payload = RED.util.evaluateNodeProperty(node.endPayload, node.emdPayloadType, node,msg);
 						node.send(msg);
 					}
