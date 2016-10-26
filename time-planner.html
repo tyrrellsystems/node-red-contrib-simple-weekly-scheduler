@@ -131,10 +131,11 @@
 					}
 				});
 
-				if(this.startPayloadType == null) {
-					this.startPayloadType = "str";
+
+				if(node.startPayloadType == null) {
+					node.startPayloadType = "str";
 				}
-				$("#node-input-startPayloadType").val(this.startPayloadType);
+				$("#node-input-startPayloadType").val(node.startPayloadType);
 
 				$("#node-input-startPayload").typedInput({
 					default: 'str',
@@ -142,10 +143,10 @@
 					types:['flow','global','str','num','bool','json']
 				});
 
-				if(this.endPayloadType == null) {
-					this.endPayloadType = "str";
+				if(node.endPayloadType == null) {
+					node.endPayloadType = "str";
 				}
-				$("#node-input-endPayloadType").val(this.endPayloadType);
+				$("#node-input-endPayloadType").val(node.endPayloadType);
 
 				$("#node-input-endPayload").typedInput({
 					default: 'str',

@@ -47,6 +47,73 @@ module.exports = function(RED) {
 			}
 		}
 
+		function firstTime(){
+			console.log("firstTime");
+			var now = new Date();
+			var day = now.getUTCDay();
+			var hour = now.getUTCHours();
+			var mins = now.getUTCMinutes();
+			for (var i=0; i< node.events.length; i++) {
+				var evtStart = new Date();
+				evtStart.setTime(Date.parse(node.events[i].start));
+				var evtEnd =  new Date();
+				evtEnd.setTime(Date.parse(node.events[i].end));
+
+				if (evtStart.getUTCDay() == day) {
+					//same day
+					if (hour >= evtStart.getUTCHours()) {
+						//after or same start hour
+						if (hour === evtStart.getUTCHours){
+							if (mins >= evtStart.getUTCMinutes()) {
+								//same hour and same or after start mins
+								if (hour <= evtEnd.getUTCHours()) {
+									//before or equal to end hour
+									if (hour < evtEnd.getUTCHours){
+										//in event
+										sendStartMessage(evtStart,evtEnd);
+									} else if (hour === evtEnd.getUTCHours()){
+										if (mins <= evtEnd.getUTCMinutes()) {
+											//in event
+											sendStartMessage(evtStart, evtEnd);
+										}
+									}
+								}
+							}
+						} else {
+							//after start
+							if (hour <= evtEnd.getUTCHours()) {
+								//before or same to end hour
+								if (hour === evtEnd.getUTCHours()) {
+									//same hour as end
+									if (mins <= evtEnd.getUTCMinutes()) {
+										//in event
+										sendStartMessage(evtStart,evtEnd);
+									}
+								} else if (hour < evtEnd.getUTCHours()){
+									//in event
+									sendStartMessage(evtStart,evtEnd);
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+
+		function sendStartMessage(evtStart,evtEnd){
+			var msg = {
+				topic: node.topic,
+				event: {
+					start:evtStart.toTimeString(),
+					end: evtEnd.toTimeString()
+				},
+				payload: RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg)
+			};
+			node.send(msg);
+		}
+
+		firstTime();
+
 		function checkTime(){
 			var now = new Date();
 			var day = now.getUTCDay();
@@ -57,13 +124,7 @@ module.exports = function(RED) {
 				evtStart.setTime(Date.parse(node.events[i].start));
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
-				// console.log("Now: ", now);
-				// console.log("Now hour: ", hour);
-				// console.log("Now mins: ", mins);
-				// console.log("Start: ",evtStart);
-				// console.log("Start hour: ",evtStart.getUTCHours());
-				// console.log("Start mins: ",evtStart.getUTCMinutes());
-				// console.log("End: ",evtEnd);
+
 
 				if (evtStart.getUTCDay() === day) { //same day of week
 					var msg = {
