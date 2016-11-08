@@ -48,11 +48,11 @@ module.exports = function(RED) {
 		}
 
 		function firstTime(){
-			console.log("firstTime");
 			var now = new Date();
 			var day = now.getUTCDay();
 			var hour = now.getUTCHours();
 			var mins = now.getUTCMinutes();
+			var found = false;
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
@@ -71,10 +71,14 @@ module.exports = function(RED) {
 									if (hour < evtEnd.getUTCHours){
 										//in event
 										sendStartMessage(evtStart,evtEnd);
+										found = true;
+										break;
 									} else if (hour === evtEnd.getUTCHours()){
 										if (mins <= evtEnd.getUTCMinutes()) {
 											//in event
 											sendStartMessage(evtStart, evtEnd);
+											found = true;
+											break;
 										}
 									}
 								}
@@ -88,15 +92,23 @@ module.exports = function(RED) {
 									if (mins <= evtEnd.getUTCMinutes()) {
 										//in event
 										sendStartMessage(evtStart,evtEnd);
+										found = true;
+										break;
 									}
 								} else if (hour < evtEnd.getUTCHours()){
 									//in event
 									sendStartMessage(evtStart,evtEnd);
+									found = true;
+									break;
 								}
 							}
 						}
 					}
-				}
+				} 
+			}
+
+			if (!found) {
+				sendEndMessage();
 			}
 		};
 
@@ -109,7 +121,19 @@ module.exports = function(RED) {
 				},
 				payload: RED.util.evaluateNodeProperty(node.startPayload, node.startPayloadType, node,msg)
 			};
-			node.send(msg);
+			setTimeout(function(){
+				node.send(msg);
+			},500);
+		}
+
+		function sendEndMessage() {
+			var msg = {
+				topic: node.topic,
+				payload: RED.util.evaluateNodeProperty(node.endPayload, node.endPayloadType, node,msg)
+			}
+			setTimeout(function(){
+				node.send(msg);
+			},500);
 		}
 
 		firstTime();
