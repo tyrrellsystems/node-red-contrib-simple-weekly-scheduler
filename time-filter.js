@@ -55,10 +55,9 @@ module.exports = function(RED) {
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
-				evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
-				evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+				
 				// console.log("Now: ", now);
 				// console.log("Now hour: ", hour);
 				// console.log("Now mins: ", mins);
@@ -68,6 +67,8 @@ module.exports = function(RED) {
 				// console.log("End: ",evtEnd);
 
 				if (evtStart.getUTCDay() === day) { //same day of week
+					evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+					evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 
 					var start = ((evtStart.getUTCHours() * 60) + evtStart.getUTCMinutes());
 					var end = ((evtEnd.getUTCHours() * 60) + evtEnd.getUTCMinutes());

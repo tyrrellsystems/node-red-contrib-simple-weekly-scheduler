@@ -63,17 +63,17 @@ module.exports = function(RED) {
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
-				evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 				// console.log("firstTime evtStart: " + evtStart.toISOString());
 				// console.log("firstTime evtStart day: " + evtStart.getUTCDay());
 				// console.log("firstTime evtStart hour: " + evtStart.getUTCHours());
 				// console.log("firstTime evtStart min: " + evtStart.getUTCMinutes());
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
-				evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 
 				if (evtStart.getUTCDay() == day) {
 					//same day
+					evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+					evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 					if (hour >= evtStart.getUTCHours()) {
 						//after or same start hour
 						if (hour === evtStart.getUTCHours){
@@ -130,8 +130,8 @@ module.exports = function(RED) {
 			// console.log("sendStartMessage");
 
 			var now = new Date();
-			evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
-			evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+			// evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+			// evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 
 			var msg = {
 				topic: node.topic,
@@ -166,13 +166,14 @@ module.exports = function(RED) {
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
-				evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
-				evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
 
 
 				if (evtStart.getUTCDay() === day) { //same day of week
+					evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+					evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
+
 					var msg = {
 						topic: node.topic,
 						event: {
