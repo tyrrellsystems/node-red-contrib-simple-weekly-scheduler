@@ -188,7 +188,7 @@ module.exports = function(RED) {
 					}
 					if (hour === evtEnd.getUTCHours() && mins === evtEnd.getUTCMinutes()) {
 						// console.log("end");
-						msg.payload = RED.util.evaluateNodeProperty(node.endPayload, node.emdPayloadType, node,msg);
+						msg.payload = RED.util.evaluateNodeProperty(node.endPayload, node.endPayloadType, node,msg);
 						node.send(msg);
 					}
 				}
