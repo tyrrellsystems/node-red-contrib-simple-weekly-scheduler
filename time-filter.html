@@ -41,12 +41,14 @@
 	only when current time is marked in the calendar, 
 	else the message will be output on the second output</p>
 
-	<p>It can also take a URL to pull a schedule from. The URL should return a JSON object that looks like:</p>
+	<p>It can also take a URL to pull a schedule from. This URL will be polled every
+	10 minutes and will totally replace any manually configured events.
+	The URL should return a JSON object that looks like:</p>
 <pre>
 [
   {
-    "start":"2009-05-01T08:00:00.000Z",
-    "end":\"2009-05-01T08:15:00.000Z",
+    "start":"2009-04-26T08:00:00.000Z",
+    "end":\"2009-04-26T08:15:00.000Z",
     "title":"",
     "id":0
   }

@@ -58,7 +58,20 @@
   "payload": "end",
 }
 	</pre>
-	<p>It can also take a url to download a updated schedule from a central server.</p>
+	<p>It can also take a url to download a updated schedule from a central server.
+	This URL will be polled every 10mins and will totally replace any manually 
+	configured events. The JSON format should look like this:</p>
+<pre>
+[
+  {
+    "start":"2009-04-26T08:00:00.000Z",
+    "end":\"2009-04-26T08:15:00.000Z",
+    "title":"",
+    "id":0
+  }
+]
+</pre>
+<p>The data should be based on a week starting Sunday 26th May 2009</p>
 </script>
 
 <script type="text/javascript">
