@@ -52,12 +52,13 @@ module.exports = function(RED) {
 			var day = now.getUTCDay();
 			var hour = now.getUTCHours();
 			var mins = now.getUTCMinutes();
+			var allowed = false;
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
 				evtStart.setTime(Date.parse(node.events[i].start));
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
-				
+
 				// console.log("Now: ", now);
 				// console.log("Now hour: ", hour);
 				// console.log("Now mins: ", mins);
@@ -75,15 +76,15 @@ module.exports = function(RED) {
 					var test = ((hour * 60) + mins);
 
 					if (test >= start &&  test <= end) {
+						allowed = true;
 						node.send([[msg],[]]);
-					} else {
-						node.send([[],msg]);
+						break;
 					}
-				} else {
-					node.send([[],msg]);
 				}
 			}
-
+			if(!allowed) {
+				node.send([[],msg]);
+			}
 		});
 
 		node.centralInterval = setInterval(checkCentral,600000); //once every 10mins
