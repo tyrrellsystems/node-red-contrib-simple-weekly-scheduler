@@ -59,7 +59,7 @@
 }
 	</pre>
 	<p>It can also take a url to download a updated schedule from a central server.
-	This URL will be polled every 10mins and will totally replace any manually 
+	This URL will be polled every 10mins and will totally replace any manually
 	configured events. The JSON format should look like this:</p>
 <pre>
 [
@@ -132,15 +132,16 @@
 				var id = events.length;
 
 				$('#calendar').weekCalendar({
-					date: new Date('2000-01-01T12:00:00.000+00:00'),
+					date: new Date('2009-05-03T07:45:00.000+00:00'),
 					minDate: new Date('2009-05-01T13:15:00.000+00:00'),
 					maxDate: new Date('2009-05-20T13:15:00.000+00:00'),
 					data: events,
-					timeslotHeight: 12,
+					timeslotHeight: 10,
 					timeslotsPerHour: 4,
 					defaultEventLength: 1,
 					use24Hour: true,
 					showHeader: false,
+                    textSize: 8,
 					getHeaderDate: function(date, element){
 						var d=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 						return d[date.getDay()];
@@ -164,7 +165,7 @@
 					// beforeEventNew: function(calEvent, $event) {
 					// 	calEvent.id = id++;
 					// 	calEvent.title = "";
-					// }, 
+					// },
 					eventNew: function(calEvent, $event) {
 						calEvent.id = id++;
 						calEvent.title = "";
@@ -174,8 +175,8 @@
 					}
 				});
 
-
-				if(node.startPayloadType == null) {
+                var optionNothing = {value:"nul",label:"Nothing - no output",hasValue:false};
+				if (node.startPayloadType === null) {
 					node.startPayloadType = "str";
 				}
 				$("#node-input-startPayloadType").val(node.startPayloadType);
@@ -183,7 +184,7 @@
 				$("#node-input-startPayload").typedInput({
 					default: 'str',
 					typeField: $("#node-input-startPayloadType"),
-					types:['flow','global','str','num','bool','json']
+					types:['flow','global','str','num','bool','json',optionNothing]
 				});
 
 				if(node.endPayloadType == null) {
@@ -194,10 +195,8 @@
 				$("#node-input-endPayload").typedInput({
 					default: 'str',
 					typeField: $("#node-input-endPayloadType"),
-					types:['flow','global','str','num','bool','json']
+					types:['flow','global','str','num','bool','json',optionNothing]
 				});
-
-
 			}
 
 			$.getScript('time-planner/js/date.js')
@@ -228,7 +227,6 @@
 			delete window.calendar;
 		},
 		oneditresize: function() {
-
 		}
 	});
 </script>
