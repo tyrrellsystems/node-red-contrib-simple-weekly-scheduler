@@ -50,8 +50,8 @@ module.exports = function(RED) {
 		node.on('input', function(msg){
 			var now = new Date();
 			var day = now.getUTCDay();
-			var hour = now.getUTCHours();
-			var mins = now.getUTCMinutes();
+			var hour = now.getHours();
+			var mins = now.getMinutes();
 			var allowed = false;
 			for (var i=0; i< node.events.length; i++) {
 				var evtStart = new Date();
@@ -59,13 +59,6 @@ module.exports = function(RED) {
 				var evtEnd =  new Date();
 				evtEnd.setTime(Date.parse(node.events[i].end));
 
-				// console.log("Now: ", now);
-				// console.log("Now hour: ", hour);
-				// console.log("Now mins: ", mins);
-				// console.log("Start: ",evtStart);
-				// console.log("Start hour: ",evtStart.getUTCHours());
-				// console.log("Start mins: ",evtStart.getUTCMinutes());
-				// console.log("End: ",evtEnd);
 
 				if (evtStart.getUTCDay() === day) { //same day of week
 					evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
@@ -74,6 +67,15 @@ module.exports = function(RED) {
 					var start = ((evtStart.getUTCHours() * 60) + evtStart.getUTCMinutes());
 					var end = ((evtEnd.getUTCHours() * 60) + evtEnd.getUTCMinutes());
 					var test = ((hour * 60) + mins);
+
+                    // console.log("Now: ", now);
+                    // console.log("Now hour: ", hour);
+                    // console.log("Now mins: ", mins);
+                    // console.log("Start: ",evtStart);
+                    // console.log("Start hour: ",evtStart.getUTCHours());
+                    // console.log("Start mins: ",evtStart.getUTCMinutes());
+                    // console.log("End: ",evtEnd);
+
 
 					if (test >= start &&  test <= end) {
 						allowed = true;
