@@ -12,43 +12,43 @@
 -->
 
 <script type="text/x-red" data-template-name="time-planner">
-	<div class="form-row">
-		<link rel='stylesheet' href='time-planner/js/jquery.weekcalendar.css' />
-		<style type="text/css">
-		.wc-business-hours {
-			font-size: 1.0em;
-		}
-		</style>
-		<div id="calendar" style="width: 100%; height: 500px; border: 1px solid grey"></div>
-	</div>
-	<div class="form-row">
-		<label for="node-input-startPayload"><i class="fa fa-envelope"></i> Start Payload</label>
-		<input type="text" id="node-input-startPayload" placeholder="start"></input>
-		<input type="hidden" id="node-input-startPayloadType">
-	</div>
-	<div class="form-row">
-		<label for="node-input-endPayload"><i class="fa fa-envelope"></i> End Payload</label>
-		<input type="text" id="node-input-endPayload" placeholder="end"></input>
-		<input type="hidden" id="node-input-endPayloadType">
-	</div>
-	<div class="form-row">
-		<label for="node-input-central"><i class="fa fa-link"></i> Central List</label>
-		<input type="url" name="node-input-central">
-	</div>
-	<div class="form-row">
-		<label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
-		<input type="text" id="node-input-topic" placeholder="Topic"></input>
-	</div>
-	<div class="form-row">
-		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-		<input type="text" id="node-input-name" placeholder="Name"></input>
-	</div>
+    <div class="form-row">
+        <link rel='stylesheet' href='time-planner/js/jquery.weekcalendar.css' />
+        <style type="text/css">
+        .wc-business-hours {
+            font-size: 1.0em;
+        }
+        </style>
+        <div id="calendar" style="width: 100%; height: 500px; border: 1px solid grey"></div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-startPayload"><i class="fa fa-envelope"></i> Start Payload</label>
+        <input type="text" id="node-input-startPayload" placeholder="start"></input>
+        <input type="hidden" id="node-input-startPayloadType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-endPayload"><i class="fa fa-envelope"></i> End Payload</label>
+        <input type="text" id="node-input-endPayload" placeholder="end"></input>
+        <input type="hidden" id="node-input-endPayloadType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-central"><i class="fa fa-link"></i> Central List</label>
+        <input type="url" name="node-input-central">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name"></input>
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="time-planner">
-	<p>A node to schedule events over a given week</p>
-	<p>The node will emit a message at the start and end of the event of the form</p>
-	<pre>
+    <p>A node to schedule events over a given week</p>
+    <p>The node will emit a message at the start and end of the event of the form</p>
+    <pre>
 {
   "topic": "some/topic",
   "event": {
@@ -57,10 +57,10 @@
   },
   "payload": "end",
 }
-	</pre>
-	<p>It can also take a url to download a updated schedule from a central server.
-	This URL will be polled every 10mins and will totally replace any manually 
-	configured events. The JSON format should look like this:</p>
+    </pre>
+    <p>It can also take a url to download a updated schedule from a central server.
+    This URL will be polled every 10mins and will totally replace any manually
+    configured events. The JSON format should look like this:</p>
 <pre>
 [
   {
@@ -75,14 +75,14 @@
 </script>
 
 <script type="text/javascript">
-	RED.nodes.registerType('time-planner',{
-		category: 'input',
-		color:"#DEBD5C",
-		defaults: {
-			events: {value:"[]"},
-			topic: {value:""},
-			central: {value:""},
-			startPayload: {value:"start", validate:function(v) {
+    RED.nodes.registerType('time-planner',{
+        category: 'input',
+        color:"#DEBD5C",
+        defaults: {
+            events: {value:"[]"},
+            topic: {value:""},
+            central: {value:""},
+            startPayload: {value:"start", validate:function(v) {
                 var ptype = $("#node-input-startPayloadType").val() || this.startPayloadType;
                 if (ptype === 'json') {
                     try {
@@ -98,8 +98,8 @@
                 }
                 return true;
             }},
-			startPayloadType: {value:"str"},
-			endPayload: {value:"end", validate:function(v) {
+            startPayloadType: {value:"str"},
+            endPayload: {value:"end", validate:function(v) {
                 var ptype = $("#node-input-endPayloadType").val() || this.endPayloadType;
                 if (ptype === 'json') {
                     try {
@@ -115,120 +115,118 @@
                 }
                 return true;
             }},
-			endPayloadType: {value:"str"},
-			name: {value:""}
-		},
-		inputs: 0,
-		outputs: 1,
-		icon: 'cal.png',
-		paletteLabel: 'Scheduler',
-		label: function(){
-			return this.name? this.name: 'Scheduler'
-		},
-		oneditprepare: function() {
-			var node = this;
-			var setup = function(n) {
-				var events = JSON.parse(n.events);
-				var id = events.length;
+            endPayloadType: {value:"str"},
+            name: {value:""}
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: 'cal.png',
+        paletteLabel: 'Scheduler',
+        label: function(){
+            return this.name? this.name: 'Scheduler'
+        },
+        oneditprepare: function() {
+            var node = this;
+            var setup = function(n) {
+                var events = JSON.parse(n.events);
+                var id = events.length;
 
-				$('#calendar').weekCalendar({
-					date: new Date('2000-01-01T12:00:00.000+00:00'),
-					minDate: new Date('2009-05-01T13:15:00.000+00:00'),
-					maxDate: new Date('2009-05-20T13:15:00.000+00:00'),
-					data: events,
-					timeslotHeight: 12,
-					timeslotsPerHour: 4,
-					defaultEventLength: 1,
-					use24Hour: true,
-					showHeader: false,
-					getHeaderDate: function(date, element){
-						var d=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-						return d[date.getDay()];
-					},
-					height: function($calendar) {
-						return $('#calendar').parent().height();
-					},
-					newEventText: "",
-					// eventHeader: function(calEvent, calendar) {
-					// 	return "";
-					// },
-					eventBody: function(calEvent, calendar) {
-						return "";
-					},
-					// eventResize : function(newCalEvent, oldCalEcent, element) {
+                $('#calendar').weekCalendar({
+                    date: new Date('2009-05-03T07:45:00.000+00:00'),
+                    minDate: new Date('2009-05-01T13:15:00.000+00:00'),
+                    maxDate: new Date('2009-05-20T13:15:00.000+00:00'),
+                    data: events,
+                    timeslotHeight: 10,
+                    timeslotsPerHour: 4,
+                    defaultEventLength: 1,
+                    use24Hour: true,
+                    showHeader: false,
+                    textSize: 8,
+                    getHeaderDate: function(date, element){
+                        var d=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+                        return d[date.getDay()];
+                    },
+                    height: function($calendar) {
+                        return $('#calendar').parent().height();
+                    },
+                    newEventText: "",
+                    // eventHeader: function(calEvent, calendar) {
+                    //  return "";
+                    // },
+                    eventBody: function(calEvent, calendar) {
+                        return "";
+                    },
+                    // eventResize : function(newCalEvent, oldCalEcent, element) {
 
-					// },
-					// eventDrop: function (newCalEvent, oldCalEvent, element) {
+                    // },
+                    // eventDrop: function (newCalEvent, oldCalEvent, element) {
 
-					// },
-					// beforeEventNew: function(calEvent, $event) {
-					// 	calEvent.id = id++;
-					// 	calEvent.title = "";
-					// }, 
-					eventNew: function(calEvent, $event) {
-						calEvent.id = id++;
-						calEvent.title = "";
-					},
-					eventClick: function(calEvent, $event) {
-						$('#calendar').weekCalendar('removeEvent', calEvent.id);
-					}
-				});
+                    // },
+                    // beforeEventNew: function(calEvent, $event) {
+                    //  calEvent.id = id++;
+                    //  calEvent.title = "";
+                    // },
+                    eventNew: function(calEvent, $event) {
+                        calEvent.id = id++;
+                        calEvent.title = "";
+                    },
+                    eventClick: function(calEvent, $event) {
+                        $('#calendar').weekCalendar('removeEvent', calEvent.id);
+                    }
+                });
 
+                var optionNothing = {value:"nul",label:"Nothing - no output",hasValue:false};
+                if (node.startPayloadType === null) {
+                    node.startPayloadType = "str";
+                }
+                $("#node-input-startPayloadType").val(node.startPayloadType);
 
-				if(node.startPayloadType == null) {
-					node.startPayloadType = "str";
-				}
-				$("#node-input-startPayloadType").val(node.startPayloadType);
+                $("#node-input-startPayload").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-startPayloadType"),
+                    types:['flow','global','str','num','bool','json',optionNothing]
+                });
 
-				$("#node-input-startPayload").typedInput({
-					default: 'str',
-					typeField: $("#node-input-startPayloadType"),
-					types:['flow','global','str','num','bool','json']
-				});
+                if(node.endPayloadType == null) {
+                    node.endPayloadType = "str";
+                }
+                $("#node-input-endPayloadType").val(node.endPayloadType);
 
-				if(node.endPayloadType == null) {
-					node.endPayloadType = "str";
-				}
-				$("#node-input-endPayloadType").val(node.endPayloadType);
+                $("#node-input-endPayload").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-endPayloadType"),
+                    types:['flow','global','str','num','bool','json',optionNothing]
+                });
+            }
 
-				$("#node-input-endPayload").typedInput({
-					default: 'str',
-					typeField: $("#node-input-endPayloadType"),
-					types:['flow','global','str','num','bool','json']
-				});
-
-
-			}
-
-			$.getScript('time-planner/js/date.js')
-			.done(function(data, textStatus, jqxhr) {
-			  $.getScript('time-planner/js/jquery.weekcalendar.js')
-			  .done(function(data, textStatus, jqxhr){
-				setup(node);
-			  })
-			  .fail(function(jqxhr, settings, exception ){
-				console.log("failed to load fullcalendar.js");
-				console.log(exception);
-				console.log(exception.stack);
-			  });
-			})
-			.fail(function(jqxhr, settings, exception ) {
-			  console.log("failed to load moment.js");
-			  console.log(exception);
-			  console.log(exception.stack);
-			});
-		},
-		oneditsave: function() {
-			var n = this;
-			var events = $('#calendar').weekCalendar('serializeEvents');
-			for (var i=0; i<events.length; i++) {
-				events[i].id = i;
-			}
-			n.events = JSON.stringify(events);
-			delete window.calendar;
-		},
-		oneditresize: function() {
-
-		}
-	});
+            $.getScript('time-planner/js/date.js')
+            .done(function(data, textStatus, jqxhr) {
+              $.getScript('time-planner/js/jquery.weekcalendar.js')
+              .done(function(data, textStatus, jqxhr){
+                setup(node);
+              })
+              .fail(function(jqxhr, settings, exception ){
+                console.log("failed to load fullcalendar.js");
+                console.log(exception);
+                console.log(exception.stack);
+              });
+            })
+            .fail(function(jqxhr, settings, exception ) {
+              console.log("failed to load moment.js");
+              console.log(exception);
+              console.log(exception.stack);
+            });
+        },
+        oneditsave: function() {
+            var n = this;
+            var events = $('#calendar').weekCalendar('serializeEvents');
+            for (var i=0; i<events.length; i++) {
+                events[i].id = i;
+            }
+            n.events = JSON.stringify(events);
+            delete window.calendar;
+        },
+        oneditresize: function() {
+        }
+    });
 </script>
