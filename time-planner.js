@@ -118,7 +118,7 @@ module.exports = function(RED) {
         }
 
         function sendStartMessage(evtStart,evtEnd) {
-            console.log("sendStartMessage");
+            // console.log("sendStartMessage");
             var now = new Date();
             // evtStart.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
             // evtEnd.setFullYear(now.getFullYear(),now.getUTCMonth(), now.getUTCDate());
@@ -138,7 +138,7 @@ module.exports = function(RED) {
         }
 
         function sendEndMessage() {
-            console.log("sendEndMessage");
+            // console.log("sendEndMessage");
             if (node.endPayloadType !== "nul") {
                 var msg = {
                     topic: node.topic,
