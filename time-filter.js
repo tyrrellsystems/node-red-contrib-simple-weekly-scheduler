@@ -32,7 +32,7 @@ module.exports = function(RED) {
 
 		function checkCentral() {
 			if (node.central) {
-				req(node.central, function(err, respose, body){
+				req(node.central, function(err, response, body){
 					if (!err && response.statusCode == 200) {
 						try{
 							node.events = JSON.parse(body);
